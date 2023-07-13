@@ -1,10 +1,11 @@
 import { Button, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
+import "./Option.css";
 import PropTypes from "prop-types";
 
 function Option(props) {
-  const [langcode, setLangcode] = useState("17");
+  const [langcode, setLangcode] = useState("");
   const [user_input, setUserinput] = useState("");
 
   const langChangehandeler = (event) => {
@@ -19,7 +20,7 @@ function Option(props) {
   };
 
   const codeRunner = () => {
-    props.onRun(langcode,user_input);
+    props.onRun(langcode, user_input);
   };
 
   const clearCode = () => {
@@ -30,35 +31,37 @@ function Option(props) {
   return (
     <Container fluid>
       <Form.Group className="text-white">
-        <Form.Label className=" text-white">Language</Form.Label>
+        <Form.Label className=" text-white ">Language</Form.Label>
         <Form.Select
-          className="text-white"
+          className="text-white bg-secondary"
           aria-label="Language"
-          style={{ background: "#272822" }}
           onInput={langChangehandeler}
           value={langcode}
         >
           <option>Select Language</option>
-          <option value="6">C</option>
-          <option value="5">Python</option>
-          <option value="17">JavaScript</option>
-          <option value="1">C#</option>
+          <option value="java">Java</option>
+          <option value="py">Python</option>
+          <option value="cpp">C++</option>
+          <option value="c">C</option>
+          <option value="go">GoLang</option>
+          <option value="cs">C#</option>
+          <option value="js">NodeJS</option>
         </Form.Select>
       </Form.Group>
       <Form.Group className="mt-4">
-        <Form.Label className=" text-white ">User Input</Form.Label>
+        <Form.Label className=" text-white">User Input</Form.Label>
         <Form.Control
           value={user_input}
           className="text-white"
           as="textarea"
-          rows={5}
+          rows={8}
           style={{ resize: "none", background: "#272822" }}
           onInput={userInputHandler}
         ></Form.Control>
       </Form.Group>
       <Form.Group className="mt-4">
         <Form.Label className="text-white">Actions</Form.Label>
-        <div className="d-grid gap-2">
+        <div className="d-grid gap-4">
           <Button variant="secondary" size="lg" onClick={codeRunner}>
             Run
           </Button>

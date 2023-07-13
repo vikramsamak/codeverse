@@ -16,10 +16,10 @@ To run this project locally, follow these steps:
 4. Start the development server: `npm run dev`
 5. Open your web browser and navigate to `http://localhost:5173` to access the CodeVerse application.
 
-
 ## API Integration
 
-CodeVerse integrates with the Code Compiler API to compile and execute the code entered by the user. You will need to obtain an API key from the [Code Compiler API](https://rapidapi.com/abdheshnayak/api/code-compiler/) and set it as an environment variable (e.g., `VITE_APP_API_KEY`) in the `.env` file.
+CodeVerse integrates with the [CodeX API](https://github.com/Jaagrav/CodeX-API) for code compilation and execution. 
+
 
 ## Contributions
 
@@ -28,9 +28,9 @@ Contributions to CodeVerse are welcome! If you find any bugs, issues, or have su
 
 ## Acknowledgements
 
-- The Code Compiler API for providing the code compilation functionality.
+- The Codex API for providing the code compilation functionality.
 - The ReactJS and React Bootstrap communities for their excellent libraries and resources.
 
 ## Contact
 
-For any inquiries or further information about CodeVerse, please contact [Vikram Samak](mailto:vikramsamak02@example.com).
+For any inquiries or further information about CodeVerse, please contact [Vikram Samak](mailto:vikramsamak02@gmail.com).

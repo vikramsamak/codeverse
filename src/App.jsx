@@ -6,60 +6,97 @@ import Editor from "./assets/Editor";
 import Output from "./assets/Output";
 import Option from "./assets/Option";
 import { useState } from "react";
+import QueryString from "qs";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [lang, setLang] = useState("javascript");
+  const [lang, setLang] = useState("java");
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
 
+  const notify = (msg) => toast.info(msg);
+
+  const error_display = (err) => toast.error(err);
+
   const getLangcode = (langcode) => {
-    if (langcode == "6") {
-      setLang("c_cpp");
-    } else if (langcode == "5") {
+    if (langcode == "java") {
+      setLang("java");
+    } else if (langcode == "py") {
       setLang("python");
-    } else if (langcode == "17") {
-      setLang("javascript");
-    } else if (langcode == "1") {
+    } else if (langcode == "cpp") {
+      setLang("c_cpp");
+    } else if (langcode == "c") {
+      setLang("c_cpp");
+    } else if (langcode == "go") {
+      setLang("golang");
+    } else if (langcode == "cs") {
       setLang("csharp");
+    } else if (langcode == "js") {
+      setLang("javascript");
     }
   };
 
   const clearEverything = () => {
     setCode("");
     setOutput("");
+    notify("Everything is cleared now...");
   };
   const getOutput = (langcode, user_input) => {
     // api request code
-    const url = "https://code-compiler.p.rapidapi.com/v2";
-    const options = {
-      method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        "X-RapidAPI-Key":import.meta.env.VITE_API_KEY,
-        "X-RapidAPI-Host": "code-compiler.p.rapidapi.com",
-      },
-      body: new URLSearchParams({
-        LanguageChoice: langcode,
-        Program: code,
-        Input: user_input,
-      }),
-    };
-
-    fetch(url, options)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setOutput(data);
+    if (langcode == "") {
+      error_display("No Language selected");
+    } else if (code == "") {
+      error_display("Code Empty...");
+    } else {
+      var data = QueryString.stringify({
+        code: code,
+        language: langcode,
+        input: user_input,
       });
+      var config = {
+        method: "post",
+        url: "https://api.codex.jaagrav.in",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: data,
+      };
+
+      axios(config).then(function (response) {
+        setOutput(JSON.parse(JSON.stringify(response.data)));
+      });
+    }
   };
 
   return (
-    <div style={{ height: "100%", background: "#272822" }}>
-      <Navbar expand="lg" className="">
-        <Container className="justify-content-center ">
+    <Container
+      fluid
+      style={{
+        minHeight: "100vh",
+        background: "#272822",
+        minWidth: "100%",
+        maxWidth: "100%",
+      }}
+    >
+      <ToastContainer
+        style={{ background: "#272822" }}
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <Navbar expand="lg" className="justify-content-center">
+        <Container fluid className="justify-content-center ">
           <Navbar.Brand className="text-white">
             CodeVerse - Online Code Compiler
           </Navbar.Brand>
@@ -67,7 +104,10 @@ function App() {
       </Navbar>
       <Container fluid style={{ background: "#272822" }}>
         <Row>
-          <Col sm={2} className="p-2 m-0 border rounded border-secondary ">
+          <Col
+            lg={2}
+            className="p-2 mt-sm-2 m-md-2 m-lg-2 border rounded border-secondary "
+          >
             <h5 className="text-white text-center">Options</h5>
             <Option
               className="text-white"
@@ -76,17 +116,20 @@ function App() {
               onClear={clearEverything}
             ></Option>
           </Col>
-          <Col sm={5} className="p-2 m-0 border rounded border-secondary">
+          <Col
+            lg={6}
+            className="p-2 mt-sm-2 m-md-2 my-lg-2 border rounded border-secondary"
+          >
             <h5 className="text-white text-center">Editor</h5>
             <Editor lang={lang} code={code} setCode={setCode}></Editor>
           </Col>
-          <Col sm={5} className="p-2 m-0 border rounded border-secondary">
+          <Col className="p-2 mt-sm-2 m-md-2 m-lg-2 border rounded border-secondary">
             <h5 className="text-white text-center">Output</h5>
             <Output output={{ output }}></Output>
           </Col>
         </Row>
       </Container>
-    </div>
+    </Container>
   );
 }
 
