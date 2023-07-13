@@ -12,9 +12,8 @@ To run this project locally, follow these steps:
 
 1. Clone the repository: `git clone <repository-url>`
 2. Install the dependencies: `npm install`
-3. Create a `.env` file in the root directory and add the required environment variables (e.g. API key).
-4. Start the development server: `npm run dev`
-5. Open your web browser and navigate to `http://localhost:5173` to access the CodeVerse application.
+3. Start the development server: `npm run dev`
+4. Open your web browser and navigate to `http://localhost:5173` to access the CodeVerse application.
 
 ## API Integration
 
